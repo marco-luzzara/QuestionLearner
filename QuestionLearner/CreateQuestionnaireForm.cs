@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace QuestionLearner
 {
-    public partial class Form1 : Form
+    public partial class CreateQuestionnaireForm : Form
     {
-        public Form1()
+        public CreateQuestionnaireForm()
         {
             InitializeComponent();
         }
