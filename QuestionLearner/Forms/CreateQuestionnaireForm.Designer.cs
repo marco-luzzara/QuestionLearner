@@ -30,19 +30,20 @@
         {
             this.components = new System.ComponentModel.Container();
             this.questionsPanel = new System.Windows.Forms.Panel();
+            this.questionsListBox = new System.Windows.Forms.ListBox();
+            this.btnRemoveQuestion = new System.Windows.Forms.Button();
+            this.btnAddQuestion = new System.Windows.Forms.Button();
             this.lblQuestions = new System.Windows.Forms.Label();
             this.resourcePanel = new System.Windows.Forms.Panel();
+            this.btnRemoveResource = new System.Windows.Forms.Button();
+            this.btnAddResource = new System.Windows.Forms.Button();
             this.resourcesListBox = new System.Windows.Forms.ListBox();
             this.imgDisplayPanel = new System.Windows.Forms.Panel();
             this.lblResources = new System.Windows.Forms.Label();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.resourceList = new System.Windows.Forms.ImageList(this.components);
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.btnAddQuestion = new System.Windows.Forms.Button();
-            this.btnRemoveQuestion = new System.Windows.Forms.Button();
-            this.btnRemoveResource = new System.Windows.Forms.Button();
-            this.btnAddResource = new System.Windows.Forms.Button();
-            this.questionsListBox = new System.Windows.Forms.ListBox();
+            this.dlgOpenResource = new System.Windows.Forms.OpenFileDialog();
             this.questionsPanel.SuspendLayout();
             this.resourcePanel.SuspendLayout();
             this.SuspendLayout();
@@ -58,6 +59,33 @@
             this.questionsPanel.Name = "questionsPanel";
             this.questionsPanel.Size = new System.Drawing.Size(367, 521);
             this.questionsPanel.TabIndex = 0;
+            // 
+            // questionsListBox
+            // 
+            this.questionsListBox.FormattingEnabled = true;
+            this.questionsListBox.Location = new System.Drawing.Point(3, 37);
+            this.questionsListBox.Name = "questionsListBox";
+            this.questionsListBox.Size = new System.Drawing.Size(361, 472);
+            this.questionsListBox.TabIndex = 5;
+            // 
+            // btnRemoveQuestion
+            // 
+            this.btnRemoveQuestion.Location = new System.Drawing.Point(253, 4);
+            this.btnRemoveQuestion.Name = "btnRemoveQuestion";
+            this.btnRemoveQuestion.Size = new System.Drawing.Size(75, 23);
+            this.btnRemoveQuestion.TabIndex = 2;
+            this.btnRemoveQuestion.Text = "Remove";
+            this.btnRemoveQuestion.UseVisualStyleBackColor = true;
+            // 
+            // btnAddQuestion
+            // 
+            this.btnAddQuestion.Location = new System.Drawing.Point(157, 4);
+            this.btnAddQuestion.Name = "btnAddQuestion";
+            this.btnAddQuestion.Size = new System.Drawing.Size(75, 23);
+            this.btnAddQuestion.TabIndex = 1;
+            this.btnAddQuestion.Text = "Add";
+            this.btnAddQuestion.UseVisualStyleBackColor = true;
+            this.btnAddQuestion.Click += new System.EventHandler(this.btnAddQuestion_Click);
             // 
             // lblQuestions
             // 
@@ -82,6 +110,25 @@
             this.resourcePanel.Size = new System.Drawing.Size(367, 521);
             this.resourcePanel.TabIndex = 0;
             // 
+            // btnRemoveResource
+            // 
+            this.btnRemoveResource.Location = new System.Drawing.Point(253, 4);
+            this.btnRemoveResource.Name = "btnRemoveResource";
+            this.btnRemoveResource.Size = new System.Drawing.Size(75, 23);
+            this.btnRemoveResource.TabIndex = 4;
+            this.btnRemoveResource.Text = "Remove";
+            this.btnRemoveResource.UseVisualStyleBackColor = true;
+            // 
+            // btnAddResource
+            // 
+            this.btnAddResource.Location = new System.Drawing.Point(159, 4);
+            this.btnAddResource.Name = "btnAddResource";
+            this.btnAddResource.Size = new System.Drawing.Size(75, 23);
+            this.btnAddResource.TabIndex = 3;
+            this.btnAddResource.Text = "Add";
+            this.btnAddResource.UseVisualStyleBackColor = true;
+            this.btnAddResource.Click += new System.EventHandler(this.btnAddResource_Click);
+            // 
             // resourcesListBox
             // 
             this.resourcesListBox.FormattingEnabled = true;
@@ -89,6 +136,8 @@
             this.resourcesListBox.Name = "resourcesListBox";
             this.resourcesListBox.Size = new System.Drawing.Size(361, 290);
             this.resourcesListBox.TabIndex = 2;
+            this.resourcesListBox.DisplayMember = "FileName";
+            this.resourcesListBox.ValueMember = "Image";
             // 
             // imgDisplayPanel
             // 
@@ -107,11 +156,11 @@
             this.lblResources.TabIndex = 0;
             this.lblResources.Text = "Resources";
             // 
-            // imageList1
+            // resourceList
             // 
-            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-            this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.resourceList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+            this.resourceList.ImageSize = new System.Drawing.Size(16, 16);
+            this.resourceList.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // btnSave
             // 
@@ -131,49 +180,10 @@
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
-            // btnAddQuestion
+            // dlgOpenResource
             // 
-            this.btnAddQuestion.Location = new System.Drawing.Point(157, 4);
-            this.btnAddQuestion.Name = "btnAddQuestion";
-            this.btnAddQuestion.Size = new System.Drawing.Size(75, 23);
-            this.btnAddQuestion.TabIndex = 1;
-            this.btnAddQuestion.Text = "Add";
-            this.btnAddQuestion.UseVisualStyleBackColor = true;
-            // 
-            // btnRemoveQuestion
-            // 
-            this.btnRemoveQuestion.Location = new System.Drawing.Point(253, 4);
-            this.btnRemoveQuestion.Name = "btnRemoveQuestion";
-            this.btnRemoveQuestion.Size = new System.Drawing.Size(75, 23);
-            this.btnRemoveQuestion.TabIndex = 2;
-            this.btnRemoveQuestion.Text = "Remove";
-            this.btnRemoveQuestion.UseVisualStyleBackColor = true;
-            // 
-            // btnRemoveResource
-            // 
-            this.btnRemoveResource.Location = new System.Drawing.Point(253, 4);
-            this.btnRemoveResource.Name = "btnRemoveResource";
-            this.btnRemoveResource.Size = new System.Drawing.Size(75, 23);
-            this.btnRemoveResource.TabIndex = 4;
-            this.btnRemoveResource.Text = "Remove";
-            this.btnRemoveResource.UseVisualStyleBackColor = true;
-            // 
-            // btnAddResource
-            // 
-            this.btnAddResource.Location = new System.Drawing.Point(159, 4);
-            this.btnAddResource.Name = "btnAddResource";
-            this.btnAddResource.Size = new System.Drawing.Size(75, 23);
-            this.btnAddResource.TabIndex = 3;
-            this.btnAddResource.Text = "Add";
-            this.btnAddResource.UseVisualStyleBackColor = true;
-            // 
-            // questionsListBox
-            // 
-            this.questionsListBox.FormattingEnabled = true;
-            this.questionsListBox.Location = new System.Drawing.Point(3, 37);
-            this.questionsListBox.Name = "questionsListBox";
-            this.questionsListBox.Size = new System.Drawing.Size(361, 472);
-            this.questionsListBox.TabIndex = 5;
+            this.dlgOpenResource.Multiselect = true;
+            this.dlgOpenResource.FileOk += new System.ComponentModel.CancelEventHandler(this.dlgOpenResource_FileOk);
             // 
             // CreateQuestionnaireForm
             // 
@@ -202,7 +212,7 @@
         private System.Windows.Forms.ListBox resourcesListBox;
         private System.Windows.Forms.Panel imgDisplayPanel;
         private System.Windows.Forms.Label lblResources;
-        private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.ImageList resourceList;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.ListBox questionsListBox;
@@ -210,5 +220,6 @@
         private System.Windows.Forms.Button btnAddQuestion;
         private System.Windows.Forms.Button btnRemoveResource;
         private System.Windows.Forms.Button btnAddResource;
+        private System.Windows.Forms.OpenFileDialog dlgOpenResource;
     }
 }
