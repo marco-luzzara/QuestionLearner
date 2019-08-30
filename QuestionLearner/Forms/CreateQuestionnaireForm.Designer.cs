@@ -30,7 +30,6 @@ namespace QuestionLearner
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.questionsPanel = new System.Windows.Forms.Panel();
             this.questionsListBox = new System.Windows.Forms.ListBox();
             this.btnRemoveQuestion = new System.Windows.Forms.Button();
@@ -40,17 +39,14 @@ namespace QuestionLearner
             this.btnRemoveResource = new System.Windows.Forms.Button();
             this.btnAddResource = new System.Windows.Forms.Button();
             this.resourcesListBox = new System.Windows.Forms.ListBox();
-            this.imgDisplayPanel = new System.Windows.Forms.Panel();
-            this.pboxResourceDisplay = new System.Windows.Forms.PictureBox();
             this.lblResources = new System.Windows.Forms.Label();
-            this.resourceList = new System.Windows.Forms.ImageList(this.components);
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.dlgOpenResource = new System.Windows.Forms.OpenFileDialog();
             this.dlgSaveQuestions = new System.Windows.Forms.SaveFileDialog();
+            this.pboxResourceDisplay = new System.Windows.Forms.PictureBox();
             this.questionsPanel.SuspendLayout();
             this.resourcePanel.SuspendLayout();
-            this.imgDisplayPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pboxResourceDisplay)).BeginInit();
             this.SuspendLayout();
             // 
@@ -108,10 +104,10 @@ namespace QuestionLearner
             // resourcePanel
             // 
             this.resourcePanel.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.resourcePanel.Controls.Add(this.pboxResourceDisplay);
             this.resourcePanel.Controls.Add(this.btnRemoveResource);
             this.resourcePanel.Controls.Add(this.btnAddResource);
             this.resourcePanel.Controls.Add(this.resourcesListBox);
-            this.resourcePanel.Controls.Add(this.imgDisplayPanel);
             this.resourcePanel.Controls.Add(this.lblResources);
             this.resourcePanel.Location = new System.Drawing.Point(433, 12);
             this.resourcePanel.Name = "resourcePanel";
@@ -148,22 +144,6 @@ namespace QuestionLearner
             this.resourcesListBox.TabIndex = 2;
             this.resourcesListBox.SelectedIndexChanged += new System.EventHandler(this.resourcesListBox_SelectedIndexChanged);
             // 
-            // imgDisplayPanel
-            // 
-            this.imgDisplayPanel.Controls.Add(this.pboxResourceDisplay);
-            this.imgDisplayPanel.Location = new System.Drawing.Point(3, 333);
-            this.imgDisplayPanel.Name = "imgDisplayPanel";
-            this.imgDisplayPanel.Size = new System.Drawing.Size(361, 185);
-            this.imgDisplayPanel.TabIndex = 1;
-            // 
-            // pboxResourceDisplay
-            // 
-            this.pboxResourceDisplay.Location = new System.Drawing.Point(0, 0);
-            this.pboxResourceDisplay.Name = "pboxResourceDisplay";
-            this.pboxResourceDisplay.Size = new System.Drawing.Size(361, 185);
-            this.pboxResourceDisplay.TabIndex = 0;
-            this.pboxResourceDisplay.TabStop = false;
-            // 
             // lblResources
             // 
             this.lblResources.AutoSize = true;
@@ -173,12 +153,6 @@ namespace QuestionLearner
             this.lblResources.Size = new System.Drawing.Size(76, 17);
             this.lblResources.TabIndex = 0;
             this.lblResources.Text = "Resources";
-            // 
-            // resourceList
-            // 
-            this.resourceList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-            this.resourceList.ImageSize = new System.Drawing.Size(255, 255);
-            this.resourceList.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // btnSave
             // 
@@ -204,6 +178,15 @@ namespace QuestionLearner
             this.dlgOpenResource.Multiselect = true;
             this.dlgOpenResource.FileOk += new System.ComponentModel.CancelEventHandler(this.dlgOpenResource_FileOk);
             // 
+            // pboxResourceDisplay
+            // 
+            this.pboxResourceDisplay.Location = new System.Drawing.Point(3, 333);
+            this.pboxResourceDisplay.Name = "pboxResourceDisplay";
+            this.pboxResourceDisplay.Size = new System.Drawing.Size(361, 185);
+            this.pboxResourceDisplay.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pboxResourceDisplay.TabIndex = 0;
+            this.pboxResourceDisplay.TabStop = false;
+            // 
             // CreateQuestionnaireForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -219,7 +202,6 @@ namespace QuestionLearner
             this.questionsPanel.PerformLayout();
             this.resourcePanel.ResumeLayout(false);
             this.resourcePanel.PerformLayout();
-            this.imgDisplayPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pboxResourceDisplay)).EndInit();
             this.ResumeLayout(false);
 
@@ -231,9 +213,7 @@ namespace QuestionLearner
         private System.Windows.Forms.Label lblQuestions;
         private System.Windows.Forms.Panel resourcePanel;
         private System.Windows.Forms.ListBox resourcesListBox;
-        private System.Windows.Forms.Panel imgDisplayPanel;
         private System.Windows.Forms.Label lblResources;
-        private System.Windows.Forms.ImageList resourceList;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.ListBox questionsListBox;
@@ -242,10 +222,7 @@ namespace QuestionLearner
         private System.Windows.Forms.Button btnRemoveResource;
         private System.Windows.Forms.Button btnAddResource;
         private System.Windows.Forms.OpenFileDialog dlgOpenResource;
-
-        //custom
-        protected Graphics resourceListGraphics;
-        private System.Windows.Forms.PictureBox pboxResourceDisplay;
         private System.Windows.Forms.SaveFileDialog dlgSaveQuestions;
+        private System.Windows.Forms.PictureBox pboxResourceDisplay;
     }
 }

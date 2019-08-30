@@ -26,11 +26,6 @@ namespace QuestionLearner
         public CreateQuestionnaireForm()
         {
             InitializeComponent();
-            resourceList = new ImageList();
-
-            resourceList.ImageSize = new Size(255, 255);
-            resourceList.TransparentColor = Color.White;
-            resourceListGraphics = Graphics.FromHwnd(imgDisplayPanel.Handle);
         }
 
         private void btnAddQuestion_Click(object sender, EventArgs e)
@@ -55,7 +50,6 @@ namespace QuestionLearner
                 ImageFile[] imageFiles = filenames.Select(fn => new ImageFile(fn)).ToArray();
 
                 this.resourcesListBox.Items.AddRange(imageFiles);
-                this.resourceList.Images.AddRange(imageFiles.Select(imgf => imgf.Image).ToArray());
             }
         }
 
@@ -63,13 +57,7 @@ namespace QuestionLearner
         {
             if (this.resourcesListBox.SelectedIndex != -1)
             {
-                this.imgDisplayPanel.Refresh();
-                this.resourceList.Draw(resourceListGraphics,
-                    0, 0,
-                    this.imgDisplayPanel.Width, this.imgDisplayPanel.Height,
-                    this.resourcesListBox.SelectedIndex);
-
-                this.pboxResourceDisplay.Image = this.resourceList.Images[this.resourcesListBox.SelectedIndex];
+                this.pboxResourceDisplay.Image = ((ImageFile) this.resourcesListBox.SelectedItem).Image;
             }
         }
 
