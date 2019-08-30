@@ -16,6 +16,9 @@ namespace QuestionLearner
 {
     public partial class MainForm : Form
     {
+        protected Queue<Question> questions;
+        protected IDictionary<string, string> resources;
+
         public MainForm()
         {
             InitializeComponent();
@@ -37,6 +40,41 @@ namespace QuestionLearner
             form.ShowDialog();
         }
 
+        protected virtual IEnumerable<Question> GetNextQuestion()
+        {
+            if (questions.Count > 0)
+            {
+                var question = questions.Dequeue();
+                questions.Enqueue(question);
+
+                yield return question;
+            }
+            else
+            {
+                yield return null;
+            }
+        }
+
+        protected virtual void LoadQuestionOnForm()
+        {
+            var curQuestion = GetNextQuestion().First();
+
+            this.lblQuestionText.Text = curQuestion.Text;
+            this.pBoxImgDisplay.Image = curQuestion.Resource?.Image;
+        }
+
+        protected virtual void InitComponentForQuestionnaire()
+        {
+            this.lblQuestionText.Visible = true;
+            this.pnlQuestion.Visible = true;
+            this.pBoxImgDisplay.Visible = true;
+            this.gBoxAnswers.Visible = true;
+            this.radioBtnTrue.Visible = true;
+            this.radioBtnFalse.Visible = true;
+
+            LoadQuestionOnForm();
+        }
+
         private void openMenuItem_Click(object sender, EventArgs e)
         {
             if (this.dlgOpenQuestionnaire.ShowDialog() == DialogResult.OK)
@@ -47,11 +85,14 @@ namespace QuestionLearner
                 var questionsElems = questionnaireXml.XPathSelectElements("questions/question");
                 var resourcesElems = questionnaireXml.XPathSelectElements("resources/resource");
 
-                IDictionary<string, string> resources = resourcesElems.ToDictionary(
+                resources = resourcesElems.ToDictionary(
                     elem => elem.Attribute("id").Value,
                     elem => elem.Value
                 );
-                IEnumerable<Question> questions = questionsElems.Select(elem => QuestionExtension.FromXml(elem, resources));
+                questions = new Queue<Question>(questionsElems.Select(elem => QuestionExtension.FromXml(elem, resources)));
+
+                if (questions.Count > 0)
+                    InitComponentForQuestionnaire();
             }
         }
     }
