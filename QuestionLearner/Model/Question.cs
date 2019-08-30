@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace QuestionLearner.Model
 {
@@ -11,7 +12,7 @@ namespace QuestionLearner.Model
     {
         public string Text { get; set; }
         public string Answer { get; set; }
-        public Image Resource { get; set; }
+        public ImageFile Resource { get; set; }
 
         public Question(string text, string answer)
         {
@@ -19,7 +20,7 @@ namespace QuestionLearner.Model
             this.Answer = answer;
         }
 
-        public Question(string text, string answer, Image resource) : this(text, answer)
+        public Question(string text, string answer, ImageFile resource) : this(text, answer)
         {
             this.Resource = resource;
         }

@@ -35,6 +35,7 @@
             this.closeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createQuestionnaireMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dlgOpenQuestionnaire = new System.Windows.Forms.OpenFileDialog();
             this.mainMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -62,19 +63,20 @@
             // openMenuItem
             // 
             this.openMenuItem.Name = "openMenuItem";
-            this.openMenuItem.Size = new System.Drawing.Size(110, 22);
+            this.openMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openMenuItem.Text = "Open";
+            this.openMenuItem.Click += new System.EventHandler(this.openMenuItem_Click);
             // 
             // recentMenuItem
             // 
             this.recentMenuItem.Name = "recentMenuItem";
-            this.recentMenuItem.Size = new System.Drawing.Size(110, 22);
+            this.recentMenuItem.Size = new System.Drawing.Size(152, 22);
             this.recentMenuItem.Text = "Recent";
             // 
             // closeMenuItem
             // 
             this.closeMenuItem.Name = "closeMenuItem";
-            this.closeMenuItem.Size = new System.Drawing.Size(110, 22);
+            this.closeMenuItem.Size = new System.Drawing.Size(152, 22);
             this.closeMenuItem.Text = "Close";
             this.closeMenuItem.Click += new System.EventHandler(this.closeMenuItem_Click);
             // 
@@ -119,6 +121,7 @@
         private System.Windows.Forms.ToolStripMenuItem closeMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolsMenuItem;
         private System.Windows.Forms.ToolStripMenuItem createQuestionnaireMenuItem;
+        private System.Windows.Forms.OpenFileDialog dlgOpenQuestionnaire;
     }
 }
 

@@ -109,7 +109,6 @@
             this.listBoxResources.Size = new System.Drawing.Size(559, 186);
             this.listBoxResources.TabIndex = 7;
             this.listBoxResources.DisplayMember = "FileName";
-            this.listBoxResources.ValueMember = "Image";
             // 
             // lblResources
             // 

@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace QuestionLearner
 {
@@ -24,12 +26,20 @@ namespace QuestionLearner
         public CreateQuestionnaireForm()
         {
             InitializeComponent();
+            resourceList = new ImageList();
+
+            resourceList.ImageSize = new Size(255, 255);
+            resourceList.TransparentColor = Color.White;
+            resourceListGraphics = Graphics.FromHwnd(imgDisplayPanel.Handle);
         }
 
         private void btnAddQuestion_Click(object sender, EventArgs e)
         {
             AddQuestionForm form = new AddQuestionForm(this);
-            form.ShowDialog();
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                this.questionsListBox.Items.Add(form.Question);
+            }
         }
 
         private void btnAddResource_Click(object sender, EventArgs e)
@@ -39,10 +49,91 @@ namespace QuestionLearner
 
         private void dlgOpenResource_FileOk(object sender, CancelEventArgs e)
         {
-            string[] filenames = this.dlgOpenResource.FileNames;
-            ImageFile[] imageFiles = filenames.Select(fn => new ImageFile(fn)).ToArray();
+            if (this.dlgOpenResource.FileNames != null)
+            {
+                string[] filenames = this.dlgOpenResource.FileNames;
+                ImageFile[] imageFiles = filenames.Select(fn => new ImageFile(fn)).ToArray();
 
-            this.resourcesListBox.Items.AddRange(imageFiles);
+                this.resourcesListBox.Items.AddRange(imageFiles);
+                this.resourceList.Images.AddRange(imageFiles.Select(imgf => imgf.Image).ToArray());
+            }
+        }
+
+        private void resourcesListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.resourcesListBox.SelectedIndex != -1)
+            {
+                this.imgDisplayPanel.Refresh();
+                this.resourceList.Draw(resourceListGraphics,
+                    0, 0,
+                    this.imgDisplayPanel.Width, this.imgDisplayPanel.Height,
+                    this.resourcesListBox.SelectedIndex);
+
+                this.pboxResourceDisplay.Image = this.resourceList.Images[this.resourcesListBox.SelectedIndex];
+            }
+        }
+
+        private int? GetResourceIdAndAddIfNecessary(ImageFile imgFile, IDictionary<ImageFile, int> currentImgFiles)
+        {
+            if (imgFile == null)
+                return null;
+
+            int resourceId;
+            if (!currentImgFiles.TryGetValue(imgFile, out resourceId))
+            {
+                resourceId = currentImgFiles.Count;
+                currentImgFiles.Add(imgFile, resourceId);
+            }
+
+            return resourceId;
+        }
+
+        protected virtual XElement CreateXmlFromQuestions()
+        {
+            XElement root = new XElement("questionnaire");
+
+            // <questions>
+            IDictionary<ImageFile, int> storedResources = new Dictionary<ImageFile, int>();
+
+            XElement questionsTag = new XElement("questions");
+            var questionElems = this.questionsListBox.Items
+                .Cast<Question>()
+                .Select(q => new XElement("question",
+                    new XElement("text", q.Text),
+                    new XElement("answer", q.Answer),
+                    new XElement("resource", GetResourceIdAndAddIfNecessary(q.Resource, storedResources)?.ToString() ?? "null"))
+                );
+
+            questionsTag.Add(questionElems.ToArray<object>());
+            // </questions>
+
+            // <resources>
+            XElement resourcesTag = new XElement("resources");
+            resourcesTag.Add(storedResources
+                .Select(entry => new XElement("resource",
+                    new XAttribute("id", entry.Value),
+                    entry.Key.FilePath))
+                .ToArray<object>()
+            );
+            // </resources>
+
+            root.Add(questionsTag);
+            root.Add(resourcesTag);
+
+            return root;
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            var xml = CreateXmlFromQuestions();
+
+            if (this.dlgSaveQuestions.ShowDialog() == DialogResult.OK)
+            {
+                using (Stream xmlStream = this.dlgSaveQuestions.OpenFile())
+                {
+                    xml.Save(xmlStream);
+                }
+            }
         }
     }
 }

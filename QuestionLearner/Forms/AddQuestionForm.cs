@@ -36,7 +36,7 @@ namespace QuestionLearner
                 .FirstOrDefault(n => n.Checked).Checked;
 
             _question = new Question(this.txtBoxQuestion.Text, @checked ? "true" : "false");
-            _question.Resource = this.listBoxResources.SelectedIndex != -1 ? (Image) this.listBoxResources.SelectedValue : null;
+            _question.Resource = this.listBoxResources.SelectedIndex != -1 ? (ImageFile) this.listBoxResources.SelectedItem : null;
 
             this.DialogResult = DialogResult.OK;
         }

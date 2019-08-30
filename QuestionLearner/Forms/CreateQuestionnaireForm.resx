@@ -123,4 +123,7 @@
   <metadata name="dlgOpenResource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>135, 16</value>
   </metadata>
+  <metadata name="dlgSaveQuestions.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>278, 15</value>
+  </metadata>
 </root>

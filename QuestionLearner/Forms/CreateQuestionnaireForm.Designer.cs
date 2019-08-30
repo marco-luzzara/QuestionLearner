@@ -1,4 +1,6 @@
-﻿namespace QuestionLearner
+﻿using System.Drawing;
+
+namespace QuestionLearner
 {
     partial class CreateQuestionnaireForm
     {
@@ -39,13 +41,17 @@
             this.btnAddResource = new System.Windows.Forms.Button();
             this.resourcesListBox = new System.Windows.Forms.ListBox();
             this.imgDisplayPanel = new System.Windows.Forms.Panel();
+            this.pboxResourceDisplay = new System.Windows.Forms.PictureBox();
             this.lblResources = new System.Windows.Forms.Label();
             this.resourceList = new System.Windows.Forms.ImageList(this.components);
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.dlgOpenResource = new System.Windows.Forms.OpenFileDialog();
+            this.dlgSaveQuestions = new System.Windows.Forms.SaveFileDialog();
             this.questionsPanel.SuspendLayout();
             this.resourcePanel.SuspendLayout();
+            this.imgDisplayPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pboxResourceDisplay)).BeginInit();
             this.SuspendLayout();
             // 
             // questionsPanel
@@ -62,9 +68,11 @@
             // 
             // questionsListBox
             // 
+            this.questionsListBox.DisplayMember = "Text";
             this.questionsListBox.FormattingEnabled = true;
             this.questionsListBox.Location = new System.Drawing.Point(3, 37);
             this.questionsListBox.Name = "questionsListBox";
+            this.questionsListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.questionsListBox.Size = new System.Drawing.Size(361, 472);
             this.questionsListBox.TabIndex = 5;
             // 
@@ -131,20 +139,30 @@
             // 
             // resourcesListBox
             // 
+            this.resourcesListBox.DisplayMember = "FileName";
             this.resourcesListBox.FormattingEnabled = true;
             this.resourcesListBox.Location = new System.Drawing.Point(3, 37);
             this.resourcesListBox.Name = "resourcesListBox";
+            this.resourcesListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.resourcesListBox.Size = new System.Drawing.Size(361, 290);
             this.resourcesListBox.TabIndex = 2;
-            this.resourcesListBox.DisplayMember = "FileName";
-            this.resourcesListBox.ValueMember = "Image";
+            this.resourcesListBox.SelectedIndexChanged += new System.EventHandler(this.resourcesListBox_SelectedIndexChanged);
             // 
             // imgDisplayPanel
             // 
+            this.imgDisplayPanel.Controls.Add(this.pboxResourceDisplay);
             this.imgDisplayPanel.Location = new System.Drawing.Point(3, 333);
             this.imgDisplayPanel.Name = "imgDisplayPanel";
             this.imgDisplayPanel.Size = new System.Drawing.Size(361, 185);
             this.imgDisplayPanel.TabIndex = 1;
+            // 
+            // pboxResourceDisplay
+            // 
+            this.pboxResourceDisplay.Location = new System.Drawing.Point(0, 0);
+            this.pboxResourceDisplay.Name = "pboxResourceDisplay";
+            this.pboxResourceDisplay.Size = new System.Drawing.Size(361, 185);
+            this.pboxResourceDisplay.TabIndex = 0;
+            this.pboxResourceDisplay.TabStop = false;
             // 
             // lblResources
             // 
@@ -159,7 +177,7 @@
             // resourceList
             // 
             this.resourceList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-            this.resourceList.ImageSize = new System.Drawing.Size(16, 16);
+            this.resourceList.ImageSize = new System.Drawing.Size(255, 255);
             this.resourceList.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // btnSave
@@ -170,6 +188,7 @@
             this.btnSave.TabIndex = 1;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnCancel
             // 
@@ -200,6 +219,8 @@
             this.questionsPanel.PerformLayout();
             this.resourcePanel.ResumeLayout(false);
             this.resourcePanel.PerformLayout();
+            this.imgDisplayPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pboxResourceDisplay)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -221,5 +242,10 @@
         private System.Windows.Forms.Button btnRemoveResource;
         private System.Windows.Forms.Button btnAddResource;
         private System.Windows.Forms.OpenFileDialog dlgOpenResource;
+
+        //custom
+        protected Graphics resourceListGraphics;
+        private System.Windows.Forms.PictureBox pboxResourceDisplay;
+        private System.Windows.Forms.SaveFileDialog dlgSaveQuestions;
     }
 }

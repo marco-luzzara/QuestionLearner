@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\QuestionExtension.cs" />
     <Compile Include="Forms\AddQuestionForm.cs">
       <SubType>Form</SubType>
     </Compile>
