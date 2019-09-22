@@ -1,4 +1,6 @@
-﻿using QuestionLearner.Model;
+﻿using QuestionLearner.Configuration;
+using QuestionLearner.Forms;
+using QuestionLearner.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -110,8 +112,8 @@ namespace QuestionLearner
 
             return root;
         }
-
-        private void btnSave_Click(object sender, EventArgs e)
+        
+        private async void btnSave_Click(object sender, EventArgs e)
         {
             var xml = CreateXmlFromQuestions();
 
@@ -119,7 +121,17 @@ namespace QuestionLearner
             {
                 using (Stream xmlStream = this.dlgSaveQuestions.OpenFile())
                 {
-                    xml.Save(xmlStream);
+                    var fileName = this.dlgSaveQuestions.FileName;
+
+                    if (fileName != "")
+                    {
+                        xml.Save(xmlStream);
+
+                        using (var fStream = new FileStream(AppConfigManager.recentFilePath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+                        {
+                            await Utils.AddToRecentQuestionnairesIfOut(fStream, fileName);
+                        }
+                    }
                 }
             }
         }

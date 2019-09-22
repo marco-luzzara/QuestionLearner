@@ -43,6 +43,7 @@
             this.radioBtnTrue = new System.Windows.Forms.RadioButton();
             this.pBoxImgDisplay = new System.Windows.Forms.PictureBox();
             this.lblCorrectAnswer = new System.Windows.Forms.Label();
+            this.btnNextQuestion = new System.Windows.Forms.Button();
             this.mainMenuStrip.SuspendLayout();
             this.pnlQuestion.SuspendLayout();
             this.gBoxAnswers.SuspendLayout();
@@ -73,20 +74,20 @@
             // openMenuItem
             // 
             this.openMenuItem.Name = "openMenuItem";
-            this.openMenuItem.Size = new System.Drawing.Size(110, 22);
+            this.openMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openMenuItem.Text = "Open";
             this.openMenuItem.Click += new System.EventHandler(this.openMenuItem_Click);
             // 
             // recentMenuItem
             // 
             this.recentMenuItem.Name = "recentMenuItem";
-            this.recentMenuItem.Size = new System.Drawing.Size(110, 22);
+            this.recentMenuItem.Size = new System.Drawing.Size(152, 22);
             this.recentMenuItem.Text = "Recent";
             // 
             // closeMenuItem
             // 
             this.closeMenuItem.Name = "closeMenuItem";
-            this.closeMenuItem.Size = new System.Drawing.Size(110, 22);
+            this.closeMenuItem.Size = new System.Drawing.Size(152, 22);
             this.closeMenuItem.Text = "Close";
             this.closeMenuItem.Click += new System.EventHandler(this.closeMenuItem_Click);
             // 
@@ -132,7 +133,7 @@
             this.gBoxAnswers.Controls.Add(this.radioBtnTrue);
             this.gBoxAnswers.Location = new System.Drawing.Point(522, 44);
             this.gBoxAnswers.Name = "gBoxAnswers";
-            this.gBoxAnswers.Size = new System.Drawing.Size(200, 80);
+            this.gBoxAnswers.Size = new System.Drawing.Size(111, 80);
             this.gBoxAnswers.TabIndex = 3;
             this.gBoxAnswers.TabStop = false;
             this.gBoxAnswers.Text = "Answer";
@@ -149,7 +150,7 @@
             this.radioBtnFalse.TabStop = true;
             this.radioBtnFalse.Text = "False";
             this.radioBtnFalse.UseVisualStyleBackColor = true;
-            this.radioBtnFalse.Visible = false;
+            this.radioBtnFalse.Click += new System.EventHandler(this.radioBtnFalse_Click);
             // 
             // radioBtnTrue
             // 
@@ -162,7 +163,7 @@
             this.radioBtnTrue.TabStop = true;
             this.radioBtnTrue.Text = "True";
             this.radioBtnTrue.UseVisualStyleBackColor = true;
-            this.radioBtnTrue.Visible = false;
+            this.radioBtnTrue.Click += new System.EventHandler(this.radioBtnTrue_Click);
             // 
             // pBoxImgDisplay
             // 
@@ -180,15 +181,29 @@
             this.lblCorrectAnswer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCorrectAnswer.Location = new System.Drawing.Point(523, 148);
             this.lblCorrectAnswer.Name = "lblCorrectAnswer";
-            this.lblCorrectAnswer.Size = new System.Drawing.Size(0, 17);
+            this.lblCorrectAnswer.Size = new System.Drawing.Size(44, 17);
             this.lblCorrectAnswer.TabIndex = 2;
+            this.lblCorrectAnswer.Text = "prova";
             this.lblCorrectAnswer.Visible = false;
+            // 
+            // btnNextQuestion
+            // 
+            this.btnNextQuestion.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNextQuestion.Location = new System.Drawing.Point(657, 63);
+            this.btnNextQuestion.Name = "btnNextQuestion";
+            this.btnNextQuestion.Size = new System.Drawing.Size(75, 34);
+            this.btnNextQuestion.TabIndex = 5;
+            this.btnNextQuestion.Text = "Next";
+            this.btnNextQuestion.UseVisualStyleBackColor = true;
+            this.btnNextQuestion.Visible = false;
+            this.btnNextQuestion.Click += new System.EventHandler(this.btnNextQuestion_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(744, 617);
+            this.Controls.Add(this.btnNextQuestion);
             this.Controls.Add(this.lblCorrectAnswer);
             this.Controls.Add(this.pBoxImgDisplay);
             this.Controls.Add(this.gBoxAnswers);
@@ -227,6 +242,7 @@
         private System.Windows.Forms.RadioButton radioBtnTrue;
         private System.Windows.Forms.PictureBox pBoxImgDisplay;
         private System.Windows.Forms.Label lblCorrectAnswer;
+        private System.Windows.Forms.Button btnNextQuestion;
     }
 }
 
