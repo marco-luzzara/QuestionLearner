@@ -17,6 +17,7 @@ namespace QuestionLearner
 {
     public partial class CreateQuestionnaireForm : Form
     {
+        protected MainForm.MainFormAccess formAccess;
         public ListBox ResourceListBox
         {
             get
@@ -25,9 +26,10 @@ namespace QuestionLearner
             }
         }
 
-        public CreateQuestionnaireForm()
+        public CreateQuestionnaireForm(MainForm.MainFormAccess formAccess)
         {
             InitializeComponent();
+            this.formAccess = formAccess;
         }
 
         private void btnAddQuestion_Click(object sender, EventArgs e)
@@ -131,6 +133,8 @@ namespace QuestionLearner
                         {
                             await Utils.AddToRecentQuestionnairesIfOut(fStream, fileName);
                         }
+
+                        await this.formAccess.LoadRecentQuestionnaires();
                     }
                 }
             }

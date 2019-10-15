@@ -13,6 +13,8 @@ using System.Timers;
 using QuestionLearner.Configuration;
 using System.IO;
 using System.Threading.Tasks;
+using QuestionLearner.Forms;
+using System.ComponentModel;
 
 namespace QuestionLearner
 {
@@ -21,25 +23,40 @@ namespace QuestionLearner
         protected Queue<Question> questions;
         protected Question curQuestion;
         protected IDictionary<string, string> resources;
-        protected System.Timers.Timer timerCorrectAnswer = new System.Timers.Timer();
+        protected System.Windows.Forms.Timer timerCorrectAnswer = new System.Windows.Forms.Timer();
 
         public MainForm()
         {
             InitializeComponent();
 
             this.timerCorrectAnswer.Interval = AppConfigManager.timeAfterCorrectAnswer;
-            this.timerCorrectAnswer.Elapsed += new ElapsedEventHandler((obj, args) => LoadNextQuestionOnForm());
-            this.timerCorrectAnswer.AutoReset = false;
+            this.timerCorrectAnswer.Tick += new EventHandler((obj, args) => LoadNextQuestionOnForm());
             this.timerCorrectAnswer.Enabled = false;
         }
 
-        private async Task LoadRecentQuestionnaires()
+        public class MainFormAccess
+        {
+            private MainForm outerClass;
+
+            public MainFormAccess(MainForm outerClass)
+            {
+                this.outerClass = outerClass;
+            }
+
+            public async Task LoadRecentQuestionnaires()
+            {
+                await outerClass.LoadRecentQuestionnaires();
+            }
+        }
+
+        protected async Task LoadRecentQuestionnaires()
         {
             using (var fStream = new FileStream(AppConfigManager.recentFilePath, FileMode.OpenOrCreate, FileAccess.Read))
             using (var sr = new StreamReader(fStream))
             {
-                string tempLine;
+                this.recentMenuItem.DropDownItems.Clear();
 
+                string tempLine;
                 while ((tempLine = await sr.ReadLineAsync().ConfigureAwait(false)) != null)
                 {
                     var item = new ToolStripMenuItem();
@@ -63,7 +80,7 @@ namespace QuestionLearner
 
         private void createQuestionnaireMenuItem_Click(object sender, EventArgs e)
         {
-            CreateQuestionnaireForm form = new CreateQuestionnaireForm();
+            CreateQuestionnaireForm form = new CreateQuestionnaireForm(new MainFormAccess(this));
             form.ShowDialog();
         }
 
@@ -84,36 +101,37 @@ namespace QuestionLearner
 
         protected virtual void LoadNextQuestionOnForm()
         {
+            this.timerCorrectAnswer.Enabled = false;
             this.curQuestion = GetNextQuestion().First();
 
             this.lblQuestionText.Text = this.curQuestion.Text;
             this.pBoxImgDisplay.Image = this.curQuestion.Resource?.Image ?? null;
             this.lblCorrectAnswer.Visible = false;
             this.btnNextQuestion.Visible = false;
-            //this.radioBtnTrue.Checked = false;
-            //this.radioBtnFalse.Checked = false;
         }
 
         protected virtual void InitComponentForQuestionnaire()
         {
             this.lblQuestionText.Visible = true;
             this.pnlQuestion.Visible = true;
+            this.gBoxAnswer.Visible = true;
             this.pBoxImgDisplay.Visible = true;
-            this.gBoxAnswers.Visible = true;
             this.btnNextQuestion.Visible = true;
 
             LoadNextQuestionOnForm();
         }
 
-
-
-        private void openMenuItem_Click(object sender, EventArgs e)
+        private async void openMenuItem_Click(object sender, EventArgs e)
         {
             if (this.dlgOpenQuestionnaire.ShowDialog() == DialogResult.OK)
             {
-                LoadQuestionnaire(this.dlgOpenQuestionnaire.FileName);
+                var fileName = this.dlgOpenQuestionnaire.FileName;
+                LoadQuestionnaire(fileName);
 
-
+                using (var fStream = new FileStream(AppConfigManager.recentFilePath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+                {
+                    await Utils.AddToRecentQuestionnairesIfOut(fStream, fileName);
+                }
             }
         }
 
@@ -131,7 +149,7 @@ namespace QuestionLearner
             this.questions = new Queue<Question>(questionsElems.Select(elem => QuestionExtension.FromXml(elem, resources)));
 
             if (this.questions.Count > 0)
-                InitComponentForQuestionnaire();
+                InitComponentForQuestionnaire();        
         }
 
         protected void ProcessAnswer(string givenAnswer)
@@ -151,6 +169,9 @@ namespace QuestionLearner
                 this.lblCorrectAnswer.ForeColor = Color.Black;
                 this.btnNextQuestion.Visible = true;
             }
+
+            this.rbTrue.Checked = false;
+            this.rbFalse.Checked = false;
         }
 
         private void btnNextQuestion_Click(object sender, EventArgs e)
@@ -158,21 +179,21 @@ namespace QuestionLearner
             LoadNextQuestionOnForm();
         }
 
-        private void radioBtnTrue_Click(object sender, EventArgs e)
-        {
-            ProcessAnswer("true");
-        }
-
-        private void radioBtnFalse_Click(object sender, EventArgs e)
-        {
-            ProcessAnswer("false");
-        }
-
         private void tsmItemRecentQuestionnaire_Click(object sender, EventArgs e)
         {
             ToolStripMenuItem clickedItem = (ToolStripMenuItem)sender;
 
             LoadQuestionnaire(clickedItem.Text);
+        }
+
+        private void rbTrue_Click(object sender, EventArgs e)
+        {
+            ProcessAnswer("true");
+        }
+
+        private void rbFalse_Click(object sender, EventArgs e)
+        {
+            ProcessAnswer("false");
         }
     }
 }

@@ -52,6 +52,20 @@ namespace QuestionLearner.Test.Form
                     Assert.AreEqual($"test4{Environment.NewLine}test3{Environment.NewLine}test2", str);
                 }
             }
+
+            [TestMethod]
+            public void AddToRecentQuestionnairesIfOut_AlreadyPresent()
+            {
+                var recent_content = $"test3{Environment.NewLine}test2";
+
+                using (var stream = recent_content.ToStream())
+                {
+                    Utils.AddToRecentQuestionnairesIfOut(stream, "test2").Wait();
+                    var str = stream.CastToString().GetAwaiter().GetResult();
+
+                    Assert.AreEqual($"test3{Environment.NewLine}test2", str);
+                }
+            }
         }
     }
 }
